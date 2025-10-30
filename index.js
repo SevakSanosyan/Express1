@@ -1,6 +1,7 @@
 const fs = require('fs').promises
 const express = require('express')
 const app = express()
+const { getNameMDLWR, getageMDLWR } = require('./middlewares/name.js');
 
 app.get('/', (req, res) => {
     res.set({
@@ -11,30 +12,17 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/users', (req, res) => {
-
+app.get('/users', [getNameMDLWR, getageMDLWR], async (req, res) => {
     res.set({
         'content-type': "application/json",
         "Cache-Control": "no-store"
-    })
-    res.status(200)
-    fs.readFile("DB/users.json", "utf-8")
-        .then((data) => {
-            res.json(JSON.parse(data))
-        })
+    });
 
-    const {name} = req.query
-    const {age} = req.query
-    if (name) {
-        res.send(`hello ${name}`);
-        return;
-      } else if (age) {
-        res.send(`Im ${age} years old`);
-        return;
-      }
+    res.status(200);
 
-
-})
+    const data = await fs.readFile("DB/users.json", "utf-8");
+    res.json(JSON.parse(data));
+});
 
 app.get('/users/:id', (req, res) => {
 
@@ -42,14 +30,16 @@ app.get('/users/:id', (req, res) => {
     .then((data) => {
         const users = JSON.parse(data)
         const {id} = req.params
-        const user = users.find((user) => user.id === id)
+        const user = users.find((user) => user.id === +id)
         res.json(user)
     })
-//id համեմատության ժամանակ խնդիր կա string === number չեմ հիշում դզելու ձևը 
+
 
 })
 
-
+app.use((req, res, next) => {
+    res.send("<h1>Error</h1>")
+})
 
 app.listen(3000, () => {
     console.log("Server ON");

@@ -7,14 +7,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SevakSanosyan/Express1.git"
+    "url": "git+https://github.com/SevakSanosyan/Express2.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SevakSanosyan/Express1/issues"
+    "url": "https://github.com/SevakSanosyan/Express2/issues"
   },
-  "homepage": "https://github.com/SevakSanosyan/Express1#readme",
+  "homepage": "https://github.com/SevakSanosyan/Express2#readme",
   "description": "",
   "dependencies": {
     "express": "^5.1.0"
